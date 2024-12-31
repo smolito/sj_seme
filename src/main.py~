@@ -1,0 +1,17 @@
+import argparse
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Your application's description here."
+    )
+    parser.add_argument('-k', '--key', help="Example key argument", required=True)
+    parser.add_argument('-v', '--verbose', action='store_true', help="Enable verbose mode")
+    
+    args = parser.parse_args()
+    
+    if args.verbose:
+        print("Verbose mode is enabled.")
+    print(f"Key provided: {args.key}")
+
+if __name__ == '__main__':
+    main()
