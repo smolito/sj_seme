@@ -1,0 +1,10 @@
+"""
+this script crops the audio file into a new audio segment based on the start and end times provided
+"""
+
+def trim_from_start(file) -> file:
+    pass
+
+def trim_from_end(file) -> file:
+    pass
+

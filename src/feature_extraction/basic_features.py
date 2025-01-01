@@ -32,3 +32,9 @@ def get_file_duration(file) -> int:
 
 def get_file_size() -> None:
     pass
+
+def get_file_volume(file) -> int:
+    pass
+
+def get_file_volume_over_time(file) -> int:
+    pass

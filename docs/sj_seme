@@ -1,0 +1,10 @@
+.\" Manpage for sj_seme.
+.TH man 8 "01 Jan 2025" "0.1" "sj_seme man page"
+.SH NAME
+sj_seme \- audio analysis utility
+.SH SYNOPSIS
+sj_seme [args] [file]
+.SH DESCRIPTION
+sj_seme is a audio analysis utility allowing user to extract acoustic and spectral features from supplied audio file aswell as modify the file in numerous ways.
+.SH BUGS
+Many.
