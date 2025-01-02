@@ -2,6 +2,7 @@
 import feature_extraction.acoustic_features as acoustic_features
 import feature_extraction.basic_features as basic_features
 import feature_extraction.features_over_time as features_over_time
+import feature_extraction.spectral_features as spectral_features
 
 # import basic audio manipulation 
 import audio_manipulation.audio_parser as audio_parser
@@ -48,34 +49,42 @@ def main():
         except Exception as e:
             print(f"Error loading file: {e}", file=sys.stderr)
             sys.exit(1)
-
         try:
             if args.task == "duration":
                 result = acoustic_features.get_file_duration(sound)
                 print(f"Duration: {result} seconds")
-
             elif args.task == "mean_pitch":
                 pitch = acoustic_features.get_file_pitch(sound)
                 result = acoustic_features.get_file_mean_pitch(pitch)
                 print(f"Mean pitch: {result} Hz")
-
             elif args.task == "pitch_stddev":
                 pitch = acoustic_features.get_file_pitch(sound)
                 result = acoustic_features.get_file_pitch_stddev(pitch)
                 print(f"Pitch standard deviation: {result} Hz")
-
             elif args.task == "hnr":
                 result = acoustic_features.get_file_hnr(sound)
                 print(f"Harmonics-to-Noise Ratio (HNR): {result}")
-
             elif args.task == "jitter":
                 result = acoustic_features.get_file_jitter(sound)
                 print(f"Jitter measures: {result}")
-
             elif args.task == "shimmer":
                 result = acoustic_features.get_file_shimmer(sound)
                 print(f"Shimmer measures: {result}")
-
+            elif args.task == "spectral_centroid":
+                result = spectral_features.spectral_centroid(args.file)
+                print(f"Spectral centroid: {result}")
+            elif args.task == "spectral_rolloff":
+                result = spectral_features.spectral_rolloff(args.file)
+                print(f"Spectral rolloff: {result}")
+            elif args.task == "spectral_bandwidth":
+                result = spectral_features.spectral_bandwidth(args.file)
+                print(f"Spectral bandwidth: {result}")
+            elif args.task == "chromagram":
+                result = spectral_features.chromagram(args.file)
+                print(f"Chromagram: {result}")
+            elif args.task == "mel_spectrogram":
+                result = spectral_features.mel_spectrogram(args.file)
+                print(f"Mel spectrogram: {result}")
         except Exception as e:
             print(f"Error processing task: {e}", file=sys.stderr)
             sys.exit
