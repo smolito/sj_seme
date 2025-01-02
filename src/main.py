@@ -14,6 +14,8 @@ import sys
 
 import numpy as np
 
+from audio_manipulation.speech_splitter import SpeechSplitter
+
 def main():
     parser = argparse.ArgumentParser(description="Audio processing and feature extraction")
     subparsers = parser.add_subparsers(dest="command", help="Command to run")
@@ -102,4 +104,10 @@ def main():
         sys.exit(1)
 
 if __name__ == '__main__':
-    main()
+    # main()
+
+    speech_splitter = SpeechSplitter()
+    words_info_list = speech_splitter.split2words("example/harvard.wav")
+
+    for w in words_info_list:
+        print(w)
