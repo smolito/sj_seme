@@ -1,6 +1,10 @@
 """
 this script crops the audio file into a new audio segment based on the start and end times provided
 """
+import parselmouth
+import parselmouth.praat
+import sys
+
 def crop_audio(input_file, output_file, start_time, end_time):
     try:
         sound = parselmouth.Sound(input_file)

@@ -2,10 +2,17 @@
 spectral features - untested
 """
 import soundfile as sf
+import numpy as np
 
 def load_audio(file_path):
     signal, sampling_rate = sf.read(file_path)
     return signal, sampling_rate
+
+def format(arr):
+    rows, cols = arr.shape
+    header = " ".join(map(str, range(cols)))
+    formatted_rows = [f"{i} " + " ".join(map(str, arr[i])) for i in range(rows)]
+    return header + "\n" + "\n".join(formatted_rows)
 
 def spectral_centroid(file_path, frame_size=1024, hop_size=512):
     signal, sampling_rate = load_audio(file_path)

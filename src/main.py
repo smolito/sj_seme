@@ -14,7 +14,7 @@ import sys
 
 import numpy as np
 
-from audio_manipulation.speech_splitter import SpeechSplitter
+#from audio_manipulation.speech_splitter import SpeechSplitter
 
 def main():
     parser = argparse.ArgumentParser(description="Audio processing and feature extraction")
@@ -22,9 +22,13 @@ def main():
 
     feature_parser = subparsers.add_parser("features", help="Extract audio features")
     feature_parser.add_argument('-f', '--file', required=True, help="Path to the audio file")
+    feature_parser.add_argument("-v", "--visual", action="store_true", help="Visualize the spectrogram or feature.")
     feature_parser.add_argument('-t', '--task', required=True, choices=[
-        "duration", "mean_pitch", "pitch_stddev", "hnr", "jitter", "shimmer"
+        "duration", "mean_pitch", "pitch_stddev", "hnr", "jitter", "shimmer", "spectral_centroid", "spectral_rolloff", "spectral_bandwidth", "chromagram", "mel_spectrogram"
     ], help="Feature extraction task to perform")
+
+    speech_split_parser = subparsers.add_parser("speech_split", help="Split speech into words")
+    speech_split_parser.add_argument("-f", "--file", required=True, help="Input audio file")
 
     crop_parser = subparsers.add_parser("crop", help="Crop audio file")
     crop_parser.add_argument("-f", "--file", required=True, help="Input audio file")
@@ -38,16 +42,14 @@ def main():
 
     audio_to_numpy_parser = subparsers.add_parser("audio_to_numpy", help="Convert audio to NumPy array")
     audio_to_numpy_parser.add_argument("-f", "--file", required=True, help="Input audio file")
-    audio_to_numpy_parser.add_argument("-o", "--output", required=True, help="Output NumPy array file")
+    audio_to_numpy_parser.add_argument("-o", "--output", required=False, help="Output NumPy array file")
 
-    plot_parser = subparsers.add_parser("plot_features", help="Extract features for plotting")
-    plot_parser.add_argument("-f", "--file", required=True, help="Input audio file")
 
     args = parser.parse_args()
 
     if args.command == "features":
         try:
-            sound = acoustic_features.get_sound(args.file)
+            sound = acoustic_features.get_file_sound(args.file)
         except Exception as e:
             print(f"Error loading file: {e}", file=sys.stderr)
             sys.exit(1)
@@ -77,16 +79,18 @@ def main():
                 print(f"Spectral centroid: {result}")
             elif args.task == "spectral_rolloff":
                 result = spectral_features.spectral_rolloff(args.file)
-                print(f"Spectral rolloff: {result}")
+                print(result)
             elif args.task == "spectral_bandwidth":
                 result = spectral_features.spectral_bandwidth(args.file)
-                print(f"Spectral bandwidth: {result}")
+                print(result)
             elif args.task == "chromagram":
                 result = spectral_features.chromagram(args.file)
-                print(f"Chromagram: {result}")
+                print(result)
             elif args.task == "mel_spectrogram":
                 result = spectral_features.mel_spectrogram(args.file)
-                print(f"Mel spectrogram: {result}")
+                print(result)
+            if args.visual:
+                basic_features.visualize_feature(result)
         except Exception as e:
             print(f"Error processing task: {e}", file=sys.stderr)
             sys.exit
@@ -104,10 +108,12 @@ def main():
         sys.exit(1)
 
 if __name__ == '__main__':
-    # main()
+    main()
 
+    """
     speech_splitter = SpeechSplitter()
     words_info_list = speech_splitter.split2words("example/harvard.wav")
 
     for w in words_info_list:
         print(w)
+    """

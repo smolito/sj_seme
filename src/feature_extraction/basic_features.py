@@ -6,7 +6,28 @@ this is a script that gets audio files basic features that may be used for furth
 '''
 
 import os #used for os.stat()
+import sys #used for file I/O
 import soundfile as sf #used for audio length
+import matplotlib.pyplot as plt #used for visualizing features
+import numpy as np #used for visualizing features
+
+def visualize_feature(data, feature_name="creature feature") -> None:
+    plt.figure(figsize=(10, 6))
+    if isinstance(data, np.ndarray) and data.ndim == 2:
+        plt.imshow(data, aspect='auto', origin='lower', cmap='viridis')
+        plt.colorbar(label="Intensity")
+        plt.title(f"{feature_name} Visualization")
+        plt.xlabel("Time")
+        plt.ylabel("Frequency")
+    elif isinstance(data, (list, np.ndarray)) and np.ndim(data) == 1:
+        plt.plot(data)
+        plt.title(f"{feature_name} Visualization")
+        plt.xlabel("Time")
+        plt.ylabel("Value")
+    else:
+        print(f"Cannot visualize feature: Unsupported data type {type(data)}", file=sys.stderr)
+        return
+    plt.show()
 
 def get_file_metadata() -> None:
     stats = os.stat(filepath)

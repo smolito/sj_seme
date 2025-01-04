@@ -1,6 +1,8 @@
 """
 this script allows user to create a audio file from a text file or to get values of a audio file
 """
+import parselmouth
+import sys
 
 def audio_from_arr(array, sampling_frequency=44100.0, start_time=0.0):
     try:
