@@ -1,8 +1,9 @@
 """
-spectral features - untested
+spectral features
 """
 import soundfile as sf
 import numpy as np
+from scipy.fftpack import dct
 
 def load_audio(file_path):
     signal, sampling_rate = sf.read(file_path)
@@ -86,7 +87,7 @@ def mel_spectrogram(file_path, n_mels=128, frame_size=2048, hop_size=1024):
 
 def mfcc(file_path, n_mfcc=13, n_mels=128, frame_size=2048, hop_size=1024):
     signal, sampling_rate = load_audio(file_path)
-    mel_spec = mel_spectrogram(signal, sampling_rate, n_mels, frame_size, hop_size)
+    mel_spec = mel_spectrogram(file_path,  n_mels, frame_size, hop_size)
     log_mel_spec = np.log(mel_spec + 1e-9)
-    mfccs = np.fft.dct(log_mel_spec, type=2, axis=0, norm='ortho')[:n_mfcc]
+    mfccs = dct(log_mel_spec, type=2, axis=0, norm='ortho')[:n_mfcc]
     return mfccs
